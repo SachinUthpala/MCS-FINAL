@@ -39,6 +39,11 @@ $smtpOpend->execute([
     ':userMail' => $userMail
 ]);
 
+// getting departments
+$depSql = "SELECT * FROM `departments`";
+$smtpDep = $pdo->prepare($depSql);
+$smtpDep->execute();
+
 
 
 
@@ -207,7 +212,9 @@ $smtpOpend->execute([
                 <select class="wide" name="department" id="department">
                     <option data-display="Select Department">Select Department</option>
 
-                    
+                    <?php while ($row = $smtpDep->fetch(PDO::FETCH_ASSOC)): ?>
+                            <option value="<?php echo $row['depId']; ?>"><?php echo $row['depName']; ?></option>
+                        <?php endwhile; ?>
 
                 </select>
             </div>
