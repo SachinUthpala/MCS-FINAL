@@ -24,9 +24,28 @@
           <li class="nav-item">
             <a class="nav-link" href="../widgets.html">
               <i class="fa fa-puzzle-piece menu-icon"></i>
-              <span class="menu-title">My Tickets</span>
+              <span class="menu-title">Avilable Tickets</span>
             </a>
           </li>
+
+
+          <li class="nav-item ">
+            <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
+              <i class="fa fa-users menu-icon"></i>
+              <span class="menu-title">All Tickets</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse " id="page-layouts" >
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="AllTickets.php"><i class="fa fa-plus"></i>&ensp;All Tickets</a></li>
+              <li class="nav-item"> <a class="nav-link" href="boxed-layout.html"><i class="fa fa-gavel"></i>&ensp;Ongoing Tickets</a></li>
+              <li class="nav-item"> <a class="nav-link" href="boxed-layout.html"><i class="fa fa-trash"></i>&ensp;Closed Tickets</a></li>
+              </ul>
+            </div>
+          </li>
+
+         
+
           <li class="nav-item ">
             <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
               <i class="fa fa-users menu-icon"></i>
