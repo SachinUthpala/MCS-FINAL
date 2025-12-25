@@ -137,9 +137,10 @@ $smtpDep->execute();
                       <div class="form-group">
                       <label for="AdmintYPE">Admin Type</label>
                         <select class="form-control" name="adminType" id="AdmintYPE">
-                            <option value="3" >Super Admin</option>
                             <option value="2" >Admin</option>
                             <option value="1" >Normal</option>
+                            <option value="3" >Super Admin</option>
+                            
                         </select>
                       </div>
 
