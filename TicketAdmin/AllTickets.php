@@ -7,6 +7,27 @@ $sql = "SELECT * FROM `tickets`";
 $smtp = $pdo->prepare($sql);
 $smtp->execute();
 
+
+//special calculation for cards
+$totalTickets = $smtp->rowCount();
+
+//open tickets
+$sql2 = "SELECT * FROM `tickets` WHERE status != 2 ";
+$smtp2 = $pdo->prepare($sql2);
+$smtp2->execute();
+
+$totalTicketsProcess = $smtp2->rowCount();
+//closed tickets
+
+$sql23 = "SELECT * FROM `tickets` WHERE status = 2 ";
+$smtp23 = $pdo->prepare($sql23);
+$smtp23->execute();
+
+$totalTicketsClosed = $smtp23->rowCount();
+
+//close ticket
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +80,7 @@ $smtp->execute();
                           <i class="icon-sm fa fa-user mr-2"></i>
                           All Tickets
                         </p>
-                        <h2>54000</h2>
+                        <h2><?php echo $totalTickets; ?></h2>
                         <label class="badge badge-outline-success badge-pill">100% From Total</label>
                       </div>
                      
@@ -68,7 +89,7 @@ $smtp->execute();
                           <i class="icon-sm fa fa-user mr-2"></i>
                           Ongoing Tickets
                         </p>
-                        <h2>54000</h2>
+                        <h2><?php echo $totalTicketsProcess; ?></h2>
                         <label class="badge badge-outline-success badge-pill">100% From Total</label>
                       </div>
 
@@ -77,7 +98,7 @@ $smtp->execute();
                           <i class="icon-sm fa fa-user mr-2"></i>
                           Closed Tickets
                         </p>
-                        <h2>54000</h2>
+                        <h2><?php echo $totalTicketsClosed; ?></h2>
                         <label class="badge badge-outline-success badge-pill">100% From Total</label>
                       </div>
 
@@ -105,6 +126,7 @@ $smtp->execute();
                             <th>Created Date</th>
                             <th>Department</th>
                             <th>Status</th>
+                           
                             <th>Title</th>
                             <th>PDiscription</th>
                             <th>CreatedBy</th>
@@ -119,9 +141,34 @@ $smtp->execute();
                         ?>
                         <tr>
                             <td><?php echo $count; ?></td>
-                            <td><?php echo $row['created_at']; ?></td>
-                            <td><?php echo $row['department']; ?></td>
-                            <td><?php echo $row['status']; ?></td>
+                            <td><?php echo $row['createdDate']; ?></td>
+                            <td>
+                              <?php 
+
+                              $departmentId = $row['DepartmentId'];
+
+                              $sql2 = "SELECT depName FROM departments WHERE depId = :depId";
+                              $smtp2 = $pdo->prepare($sql2);
+                              $smtp2->bindParam(':depId', $departmentId);
+                              $smtp2->execute();
+
+                              $depRow = $smtp2->fetch(PDO::FETCH_ASSOC);
+                              echo $depRow['depName'];
+
+                              ?>
+                            </td>
+                            <td>
+
+                            <?php if($row['status'] == 0 ) { ?>
+                                        <span style="padding: 5px;border-radius: 5px;background-color: #48ff00ff;color: #000000ff;">Created</span>
+                                    <?php }elseif($row['status'] == 1 ) {?>
+                                        <span style="padding: 5px;border-radius: 5px;background-color: #eeff02ff;color: #000000ff;" >Processing</span>
+                                    <?php }elseif($row['status'] == 2 ) {?>
+                                        <span style="padding: 5px;border-radius: 5px;background-color: #ff5227ff;color: #000000ff;" >Closed</span>
+                                    <?php } ?>
+
+                            </td>
+                            
                             <td><?php echo $row['ticketTitle']; ?></td>
                             <td><?php echo $row['ticketDiscription']; ?></td>
                             <td><?php echo $row['userMail']; ?></td>
