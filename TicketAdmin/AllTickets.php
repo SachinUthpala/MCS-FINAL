@@ -3,9 +3,9 @@
 require '../DB/config.conn.php';
 
 // getting departments
-$depSql = "SELECT * FROM `departments`";
-$smtpDep = $pdo->prepare($depSql);
-$smtpDep->execute();
+$sql = "SELECT * FROM `tickets`";
+$smtp = $pdo->prepare($sql);
+$smtp->execute();
 
 ?>
 <!DOCTYPE html>
@@ -89,6 +89,56 @@ $smtpDep->execute();
             </div>
           </div>
 
+
+          <!-- data table comes here -->
+
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Data table</h4>
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive">
+                    <table id="order-listing" class="table">
+                      <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Created Date</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Title</th>
+                            <th>PDiscription</th>
+                            <th>CreatedBy</th>
+                            <th>See Chat</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <?php 
+                          $count = 1;
+                          while($row = $smtp->fetch(PDO::FETCH_ASSOC)){
+                        ?>
+                        <tr>
+                            <td><?php echo $count; ?></td>
+                            <td><?php echo $row['created_at']; ?></td>
+                            <td><?php echo $row['department']; ?></td>
+                            <td><?php echo $row['status']; ?></td>
+                            <td><?php echo $row['ticketTitle']; ?></td>
+                            <td><?php echo $row['ticketDiscription']; ?></td>
+                            <td><?php echo $row['userMail']; ?></td>
+                            <td><a href="TicketChat.php?ticketId=<?php echo $row['ticketId']; ?>"><button class="btn btn-primary py-2">See Chat</button></a></td>
+                        </tr>
+                        <?php 
+                          $count++;
+                          }
+                        ?>
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           
           
             
@@ -128,7 +178,7 @@ $smtpDep->execute();
 <script src="./js/file-upload.js"></script>
   <script src="./js/typeahead.js"></script>
   <script src="./js/select2.js"></script>
-  <script src="./Functions/AddUser.js"></script>
+ <script src="./js/data-table.js"></script>
 
   <!-- End custom js for this page-->
 </body>
