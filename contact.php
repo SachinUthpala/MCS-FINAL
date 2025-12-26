@@ -120,7 +120,7 @@ session_start();
 
         <!--Page Header Start-->
         <section class="page-header">
-            <div class="page-header__bg" style="background-image: url(./assets/images/page-header-bg.jpg);">
+            <div class="page-header__bg" style="background-image: url(./assets/images/contact.jpg);">
             </div>
             <div class="container">
                 <div class="page-header__inner">
