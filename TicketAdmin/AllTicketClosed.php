@@ -3,7 +3,7 @@
 require '../DB/config.conn.php';
 
 // getting departments
-$sql = "SELECT * FROM `tickets`";
+$sql = "SELECT * FROM `tickets` WHERE status = 2";
 $smtp = $pdo->prepare($sql);
 $smtp->execute();
 
@@ -37,7 +37,7 @@ $totalTicketsClosed = $smtp23->rowCount();
  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>MCS Ticket || Create User</title>
+  <title>MCS Ticket || ALL TICKETS</title>
  
   <link rel="stylesheet" href="./vendors/iconfonts/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">

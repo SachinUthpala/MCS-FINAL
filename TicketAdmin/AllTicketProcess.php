@@ -3,7 +3,7 @@
 require '../DB/config.conn.php';
 
 // getting departments
-$sql = "SELECT * FROM `tickets`";
+$sql = "SELECT * FROM `tickets` WHERE status != 2";
 $smtp = $pdo->prepare($sql);
 $smtp->execute();
 

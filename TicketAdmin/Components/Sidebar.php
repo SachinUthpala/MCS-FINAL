@@ -38,8 +38,8 @@
             <div class="collapse " id="page-tickets" >
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="AllTickets.php"><i class="fa fa-plus"></i>&ensp;All Tickets</a></li>
-              <li class="nav-item"> <a class="nav-link" href="boxed-layout.html"><i class="fa fa-gavel"></i>&ensp;Ongoing Tickets</a></li>
-              <li class="nav-item"> <a class="nav-link" href="boxed-layout.html"><i class="fa fa-trash"></i>&ensp;Closed Tickets</a></li>
+              <li class="nav-item"> <a class="nav-link" href="AllTicketProcess.php"><i class="fa fa-gavel"></i>&ensp;Ongoing Tickets</a></li>
+              <li class="nav-item"> <a class="nav-link" href="AllTicketClosed.php"><i class="fa fa-trash"></i>&ensp;Closed Tickets</a></li>
               </ul>
             </div>
           </li>
