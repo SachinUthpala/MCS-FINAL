@@ -46,7 +46,7 @@ function sendMessage() {
                 ${message}
                 ${imageHTML}
             </div>
-            <img src="Images/UserImages/user.png" class="avatar ms-2">
+            <img src="<?php echo $_SESSION['userImage']; ?>" class="avatar ms-2">
         </div>
     `;
 

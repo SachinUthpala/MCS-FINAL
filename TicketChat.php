@@ -10,6 +10,21 @@ session_start();
 require 'vendor/autoload.php';
 require './GoogleConfig.php';
 
+
+//require db
+
+require './DB/config.conn.php';
+$ticketId = $_GET['ticketId'];
+
+$sql  = "SELECT * FROM tickets WHERE ticketId = :ticketId";
+$smtp = $pdo->prepare($sql);
+$smtp->execute([
+    ':ticketId' => $ticketId
+]);
+
+$resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +32,7 @@ require './GoogleConfig.php';
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Login || MCS Software Engineering  </title>
+    <title> MCS TICKETS || MCS Software Engineering  </title>
     <!-- favicons Icons -->
    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-16x16.png">
@@ -124,9 +139,11 @@ require './GoogleConfig.php';
                     <h2>Priview Of Ticket Chat </h2>
                     <div class="thm-breadcrumb__box">
                         <ul class="thm-breadcrumb list-unstyled">
-                            <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+                            <li><a href="index.php"><i class="fas fa-home"></i>Home</a></li>
                             <li><span class="icon-right-arrow-1"></span></li>
-                            <li>Chat Id : 22390 </li>
+                            <li><a href="ticket.php"><i class="fas fa-home"></i>Tickets</a></li>
+                            <li><span class="icon-right-arrow-1"></span></li>
+                            <li>Chat Id : <?php echo 'MCSTI-'.$resqlt['ticketId'].'23@34'; ?> </li>
                         </ul>
                     </div>
                 </div>
@@ -143,7 +160,7 @@ require './GoogleConfig.php';
 
         <!-- Header -->
         <div class="card-header text-center fw-bold" style="color: #fff; background-color: transparent;border:none !important;">
-            Chat
+            <?php echo $resqlt['ticketTitle']; ?>
         </div>
         <hr>
         <br>
@@ -152,7 +169,7 @@ require './GoogleConfig.php';
         <div class="card-body chat-body" id="chatBody">
 
     <!-- Receiver -->
-    <div class="d-flex align-items-start mb-4">
+    <!-- <div class="d-flex align-items-start mb-4">
         <img src="Images/UserImages/user.png" class="avatar me-2">
 
         <div class="bg-secondary text-white p-2 rounded chat-message">
@@ -164,7 +181,7 @@ require './GoogleConfig.php';
                  data-bs-target="#imageModal"
                  onclick="showImage(this.src)">
         </div>
-    </div>
+    </div> -->
 
     <!-- Sender -->
     <div class="d-flex align-items-start justify-content-end mb-4">
@@ -177,19 +194,7 @@ require './GoogleConfig.php';
 
 
     <!-- resiver 2 -->
-     <div class="d-flex align-items-start mb-4">
-        <img src="Images/UserImages/user.png" class="avatar me-2">
-
-        <div class="bg-secondary text-white p-2 rounded chat-message">
-            This is the design image
-            <br>
-            <img src="https://via.placeholder.com/300"
-                 class="chat-img"
-                 data-bs-toggle="modal"
-                 data-bs-target="#imageModal"
-                 onclick="showImage(this.src)">
-        </div>
-    </div>
+     
 
 </div>
 
