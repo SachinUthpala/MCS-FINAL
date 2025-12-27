@@ -141,7 +141,7 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
                         <ul class="thm-breadcrumb list-unstyled">
                             <li><a href="index.php"><i class="fas fa-home"></i>Home</a></li>
                             <li><span class="icon-right-arrow-1"></span></li>
-                            <li><a href="ticket.php"><i class="fas fa-home"></i>Tickets</a></li>
+                            <li><a href="ticket.php"><i class="fas fa-ticket"></i>Tickets</a></li>
                             <li><span class="icon-right-arrow-1"></span></li>
                             <li>Chat Id : <?php echo 'MCSTI-'.$resqlt['ticketId'].'23@34'; ?> </li>
                         </ul>
@@ -186,10 +186,19 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
     <!-- Sender -->
     <div class="d-flex align-items-start justify-content-end mb-4">
         <div class="bg-primary text-white p-2 rounded text-end chat-message">
-            Looks good 👍
+            <?php echo $resqlt['ticketDiscription']; ?>
+            <!-- if attachment avilable show it -->
+            <?php if(  $resqlt['attachment'] != 'empty' ) { ?>
+                <br>
+            <img src="<?php echo './Images/Ticket/'.$resqlt['attachment']; ?>"
+                 class="chat-img"
+                 data-bs-toggle="modal"
+                 data-bs-target="#imageModal"
+                 onclick="showImage(this.src)">
+            <?php } ?>
         </div>
 
-        <img src="Images/UserImages/user.png" class="avatar ms-2">
+        <img src="<?php echo $_SESSION['userImage']; ?>" class="avatar ms-2">
     </div>
 
 
