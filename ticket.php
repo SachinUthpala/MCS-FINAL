@@ -351,7 +351,7 @@ $smtpDep->execute();
                                     
                               
                                 <div class="main-menu-two__btn-box" >
-                            <a href="./openChant?ticketId=<?php echo $openRow['ticketId']; ?>"  class="thm-btn">
+                            <a href="./TicketChat.php?ticketId=<?php echo $openRow['ticketId']; ?>"  class="thm-btn">
                                 Open Chat
                             </a>
                         </div>
@@ -427,7 +427,7 @@ $smtpDep->execute();
                                     
                               
                                 <div class="main-menu-two__btn-box" >
-                            <a href="./openChant?ticketId=<?php echo $closedRow['ticketId']; ?>"  class="thm-btn">
+                            <a href="./TicketChat.php?ticketId=<?php echo $closedRow['ticketId']; ?>"  class="thm-btn">
                                 Open Chat
                             </a>
                         </div>
@@ -505,7 +505,7 @@ $smtpDep->execute();
                                     
                               
                                 <div class="main-menu-two__btn-box" >
-                            <a href="./openChant?ticketId=<?php echo $allRow['ticketId']; ?>"  class="thm-btn">
+                            <a href="./TicketChat.php?ticketId=<?php echo $allRow['ticketId']; ?>"  class="thm-btn">
                                 Open Chat
                             </a>
                         </div>
