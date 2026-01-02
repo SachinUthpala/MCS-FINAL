@@ -16,13 +16,13 @@
             </div>
           </li>
           <li class="nav-item ">
-            <a class="nav-link " href="./index-2.html">
+            <a class="nav-link " href="./dashboard.php">
               <i class="fa fa-home menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../widgets.html">
+            <a class="nav-link" href="./AllTicketsDep.php">
               <i class="fa fa-puzzle-piece menu-icon"></i>
               <span class="menu-title">Avilable Tickets</span>
             </a>
@@ -63,7 +63,7 @@
 
           <li class="nav-item ">
             <a class="nav-link" data-toggle="collapse" href="#department" aria-expanded="false" aria-controls="page-layouts">
-              <i class="fa fa-users menu-icon"></i>
+              <i class="fa fa-suitcase menu-icon"></i>
               <span class="menu-title">Department Changes</span>
               <i class="menu-arrow"></i>
             </a>

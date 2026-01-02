@@ -19,7 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $currentDateTime = date('Y-m-d H:i:s');
 
     // Default attachment value
-    $newImageName = null;
+    $newImageName = 'NotAssign';
+    
+    // create Unique reply id
+    // $random = random_int(100, 999);
+    // $month = date('m');
+    // $day = date('d');
+    // $minute = substr(date('i'), -1);
+    // $uniqueId = $random . $month . $day . $minute;
+
+    $replyId = 'notAssign';
 
     // File upload handling
     if (!empty($_FILES['attachment']['name'])) {
@@ -44,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Insert ticket
     $sql = "
         INSERT INTO tickets 
-        (userMail, DepartmentId, ticketTitle, ticketDiscription, attachment, createdDate, urgancy)
+        (userMail, DepartmentId, ticketTitle, ticketDiscription, attachment, createdDate, urgancy, replyId)
         VALUES
-        (:userMail, :DepartmentId, :ticketTitle, :ticketDiscription, :attachment, :createdDate, :urgancy)
+        (:userMail, :DepartmentId, :ticketTitle, :ticketDiscription, :attachment, :createdDate, :urgancy, :replyId)
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -57,7 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ':ticketDiscription'  => $ticketDisc,
         ':attachment'         => $newImageName,
         ':createdDate'        => $currentDateTime,
-        ':urgancy'            => $urgancy
+        ':urgancy'            => $urgancy,
+        ':replyId' => $replyId
     ]);
 
     echo "Ticket submitted successfully.";

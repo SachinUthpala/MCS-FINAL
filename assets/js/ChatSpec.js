@@ -5,13 +5,18 @@
 
 
 
-
 let selectedImage = null;
 
-// Preview image
+/* ====== IMAGE PREVIEW ====== */
 document.getElementById('imageInput').addEventListener('change', function () {
     const file = this.files[0];
     if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        this.value = '';
+        return;
+    }
 
     selectedImage = file;
 
@@ -23,16 +28,26 @@ document.getElementById('imageInput').addEventListener('change', function () {
     reader.readAsDataURL(file);
 });
 
-// Send message
+/* ====== SHOW IMAGE IN MODAL ====== */
+function showImage(src) {
+    document.getElementById('modalImage').src = src;
+}
+
+/* ====== SEND MESSAGE FUNCTION ====== */
 function sendMessage() {
-    const message = document.getElementById('messageInput').value;
+    const messageInput = document.getElementById('messageInput');
+    const chatBody = document.getElementById('chatBody');
+    const message = messageInput.value.trim();
+
     if (message === '' && !selectedImage) return;
 
+    // Append message to UI
     let imageHTML = '';
     if (selectedImage) {
+        const imgURL = URL.createObjectURL(selectedImage);
         imageHTML = `
             <br>
-            <img src="${URL.createObjectURL(selectedImage)}"
+            <img src="${imgURL}"
                  class="chat-img"
                  data-bs-toggle="modal"
                  data-bs-target="#imageModal"
@@ -40,7 +55,7 @@ function sendMessage() {
         `;
     }
 
-    document.getElementById('chatBody').innerHTML += `
+    chatBody.innerHTML += `
         <div class="d-flex align-items-start justify-content-end mb-4">
             <div class="bg-primary text-white p-2 rounded text-end chat-message">
                 ${message}
@@ -50,19 +65,45 @@ function sendMessage() {
         </div>
     `;
 
-    // Reset
-    document.getElementById('messageInput').value = '';
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    // ====== SEND TO BACKEND ======
+    const formData = new FormData();
+    formData.append('message', message);
+
+    if (selectedImage) {
+        formData.append('image', selectedImage);
+    }
+
+    fetch('./BackEnd/SaveReply.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(response => {
+        Toastify({
+            text: response,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(270deg, #f8274e 0%, #2a31a8 100%)",
+            close: true
+        }).showToast();
+    })
+    .catch(err => {
+        Toastify({
+            text: "Error: " + err,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(270deg, #ff1640 0%, #b6022f 100%)",
+            close: true
+        }).showToast();
+    });
+
+    // ====== RESET ======
+    messageInput.value = '';
     document.getElementById('imageInput').value = '';
     document.getElementById('imagePreview').innerHTML = '';
     selectedImage = null;
-
-    // Auto scroll
-    const chatBody = document.getElementById('chatBody');
-    chatBody.scrollTop = chatBody.scrollHeight;
 }
-
-// Modal image
-function showImage(src) {
-    document.getElementById("modalImage").src = src;
-}
-

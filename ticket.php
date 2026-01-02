@@ -298,7 +298,7 @@ $smtpDep->execute();
                         <div class="tab " id="ongoing">
                        <div class="container">
                 <div class="table-responsive">
-                    <table class="table wishlist-table" id="myTable2" >
+                    <table class="table wishlist-table" id="myTable3" >
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -315,10 +315,10 @@ $smtpDep->execute();
                             <?php while($openRow = $smtpOpend->fetch(PDO::FETCH_ASSOC)){ ?>
 
                                 <tr >
-                                <td style="font-size: 18px !important;" ><?php echo $openRow['ticketTitle']; ?></td>
+                                <td style="font-size: 18px !important;max-width: 200px !important;" ><?php echo $openRow['ticketTitle']; ?></td>
                                 <td style="font-size: 18px !important; max-width: 290px !important;" ><?php echo $openRow['ticketDiscription']; ?></td>
                                 <td>
-                                    <?php if($openRow['attachment'] == null || $openRow['attachment'] == 'NULL'){ ?>
+                                    <?php if($openRow['attachment'] == null || $openRow['attachment'] == 'NotAssign'){ ?>
                                         <span style="font-size: 18px !important;"  >No attachment</span>
                                         <?php } else { ?>
                                             <img src="<?php echo './Images/Ticket/'.$openRow['attachment']; ?>" width="30px" height="30px" alt="">
@@ -391,10 +391,10 @@ $smtpDep->execute();
                             <?php while($closedRow = $smtpClosed->fetch(PDO::FETCH_ASSOC)){ ?>
 
                                 <tr >
-                                <td style="font-size: 18px !important;" ><?php echo $closedRow['ticketTitle']; ?></td>
+                                <td style="font-size: 18px !important;max-width: 200px !important;" ><?php echo $closedRow['ticketTitle']; ?></td>
                                 <td style="font-size: 18px !important; max-width: 290px !important;" ><?php echo $closedRow['ticketDiscription']; ?></td>
                                 <td>
-                                    <?php if($closedRow['attachment'] == null || $closedRow['attachment'] == 'NULL'){ ?>
+                                    <?php if($closedRow['attachment'] == null || $closedRow['attachment'] == 'NotAssign'){ ?>
                                         <span style="font-size: 18px !important;"  >No attachment</span>
                                         <?php } else { ?>
                                             <img src="<?php echo './Images/Ticket/'.$closedRow['attachment']; ?>" width="30px" height="30px" alt="">
@@ -452,7 +452,7 @@ $smtpDep->execute();
 
                         <div class="container">
                 <div class="table-responsive">
-                    <table class="table wishlist-table" id="myTable" >
+                    <table class="table wishlist-table"  id="myTable" >
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -469,10 +469,10 @@ $smtpDep->execute();
                             <?php while($allRow = $smtpAll->fetch(PDO::FETCH_ASSOC)){ ?>
 
                                 <tr >
-                                <td style="font-size: 18px !important;" ><?php echo $allRow['ticketTitle']; ?></td>
+                                <td style="font-size: 18px !important;max-width: 200px !important;" ><?php echo $allRow['ticketTitle']; ?></td>
                                 <td style="font-size: 18px !important; max-width: 290px !important;" ><?php echo $allRow['ticketDiscription']; ?></td>
                                 <td>
-                                    <?php if($allRow['attachment'] == null || $allRow['attachment'] == 'NULL'){ ?>
+                                    <?php if($allRow['attachment'] == null || $allRow['attachment'] == 'NotAssign'){ ?>
                                         <span style="font-size: 18px !important;"  >No attachment</span>
                                         <?php } else { ?>
                                             <img src="<?php echo './Images/Ticket/'.$allRow['attachment']; ?>" width="30px" height="30px" alt="">
@@ -574,21 +574,6 @@ $smtpDep->execute();
     <a href="#" data-target="html" class="scroll-to-target scroll-to-top">
         <span class="scroll-to-top__wrapper"><span class="scroll-to-top__inner"></span></span>
         <span class="scroll-to-top__text"> Go Back Top</span>
-
-
-        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script>
-$(document).ready(function(){
-    $('#myTable').DataTable({
-        "pageLength": 5,
-        info: false
-    });
-
-    // Add placeholder to search input
-    $('#myTable_filter input').attr('placeholder', 'Search...');
-});
-</script>
     </a>
 
 
@@ -633,7 +618,20 @@ $(document).ready(function(){
     <script src="./Functions/CreateTicket.js"></script>
 
 
-            
+         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+$(document).ready(function () {
+
+    $('#myTable, #myTable2, #myTable3').DataTable({
+        pageLength: 5,
+        info: false
+    });
+
+    // Add placeholder to all DataTable search inputs
+    $('.dataTables_filter input').attr('placeholder', 'Search...');
+});
+
+</script>   
 
 
 </body></html>
