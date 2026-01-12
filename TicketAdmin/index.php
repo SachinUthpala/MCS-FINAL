@@ -17,6 +17,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicons/favicon-16x16.png">
   
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 </head>
 
 <body>
@@ -31,7 +33,7 @@
               </div>
               <h4>Hello! Welcome To Mcs Ticketing</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3">
+              <form class="pt-3" id="myForm">
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="email" placeholder="Username">
                 </div>
@@ -75,6 +77,9 @@
   <script src="./js/settings.js"></script>
   <script src="./js/todolist.js"></script>
   <!-- endinject -->
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="./Functions/signin.js""></script>
 </body>
 
 
