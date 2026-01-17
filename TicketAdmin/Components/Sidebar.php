@@ -28,6 +28,13 @@
             </a>
           </li>
 
+           <li class="nav-item">
+            <a class="nav-link" href="./MyAssignTickets.php">
+              <i class="fa fa-briefcase menu-icon"></i>
+              <span class="menu-title">My Assign Tickets</span>
+            </a>
+          </li>
+
 
           <li class="nav-item ">
             <a class="nav-link" data-toggle="collapse" href="#page-tickets" aria-expanded="false" aria-controls="page-tickets">
