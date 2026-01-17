@@ -71,6 +71,40 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../assets/css/module-css/ChatSpec.css">
 
 
+    <style>
+        /* Full-page loader */
+        #pageLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.51);
+            /* black transparent */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        /* Spinner */
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-top: 6px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
 
 
 
@@ -85,56 +119,66 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php require './Components/Sidebar.php'; ?>
             <!-- partial -->
+
+
+            <!-- setting loader -->
+            <div id="pageLoader">
+                <div class="loader"></div>
+                <br><br>
+                <h3 style="color: #ffffffb6; font-weight: 500;">Plese Weight Closing Ticket. This Will Take some time !</h3>
+            </div>
+
+
             <div class="main-panel">
                 <div class="content-wrapper">
 
 
 
-                <div class="row">
-           
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-4 col-sm-6 d-flex justify-content-center border-right">
-                      <div class="wrapper text-center">
-                        <h4 class="card-title">Close Ticket</h4>
-                        <p class="card-description">You can Close the ticket using this option!</p>
-                        <button class="btn btn-outline-primary" onclick="closeTicketNow()">Close Ticket</button>
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 d-flex justify-content-center border-right">
-                      <div class="wrapper text-center">
-                        <h4 class="card-title">Change Department</h4>
-                        <p class="card-description">Change Ticket Assigned Department</p>
-                        <button class="btn btn-outline-primary" onclick="showSwal('warning-message-and-cancel')">Change Department</button>
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 d-flex justify-content-center">
-                      <div class="wrapper text-center">
-                        <h4 class="card-title">Change Level</h4>
-                        <p class="card-description">Change User Reply Level </p>
-                        <button class="btn btn-outline-primary" onclick="showSwal('auto-close')">Change Level</button>
-                      </div>
-                    </div>
+                    <div class="row">
 
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-          </div>
+                        <div class="col-12 grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-6 d-flex justify-content-center border-right">
+                                            <div class="wrapper text-center">
+                                                <h4 class="card-title">Close Ticket</h4>
+                                                <p class="card-description">You can Close the ticket using this option!</p>
+                                                <button class="btn btn-outline-primary" onclick="closeTicketNow()">Close Ticket</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 d-flex justify-content-center border-right">
+                                            <div class="wrapper text-center">
+                                                <h4 class="card-title">Change Department</h4>
+                                                <p class="card-description">Change Ticket Assigned Department</p>
+                                                <button class="btn btn-outline-primary" onclick="showSwal('warning-message-and-cancel')">Change Department</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 d-flex justify-content-center">
+                                            <div class="wrapper text-center">
+                                                <h4 class="card-title">Change Level</h4>
+                                                <p class="card-description">Change User Reply Level </p>
+                                                <button class="btn btn-outline-primary" onclick="showSwal('auto-close')">Change Level</button>
+                                            </div>
+                                        </div>
 
 
-                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
 
 
                     <div class="page-header" style="">
 
 
 
-                    
+
 
 
 
@@ -150,58 +194,58 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                 <div class="card-body chat-body" id="chatBody">
 
-    <!-- Original Ticket -->
-    <div class="d-flex align-items-start justify-content-end mb-4">
-        <div class="bg-primary text-white p-2 rounded chat-message text-end">
-            <?= htmlspecialchars($ticket['ticketDiscription']) ?>
+                                    <!-- Original Ticket -->
+                                    <div class="d-flex align-items-start justify-content-end mb-4">
+                                        <div class="bg-primary text-white p-2 rounded chat-message text-end">
+                                            <?= htmlspecialchars($ticket['ticketDiscription']) ?>
 
-            <?php if ($ticket['attachment'] !== 'NotAssign'): ?>
-                <br>
-                <img src="../Images/Ticket/<?= htmlspecialchars($ticket['attachment']) ?>"
-                     class="chat-img"
-                     onclick="showImage(this.src)">
-            <?php endif; ?>
-        </div>
-        <img src="../<?= htmlspecialchars($userImg) ?>" class="avatar ms-2">
-    </div>
+                                            <?php if ($ticket['attachment'] !== 'NotAssign'): ?>
+                                                <br>
+                                                <img src="../Images/Ticket/<?= htmlspecialchars($ticket['attachment']) ?>"
+                                                    class="chat-img"
+                                                    onclick="showImage(this.src)">
+                                            <?php endif; ?>
+                                        </div>
+                                        <img src="../<?= htmlspecialchars($userImg) ?>" class="avatar ms-2">
+                                    </div>
 
-    <!-- Replies -->
-    <?php foreach ($replies as $reply): ?>
+                                    <!-- Replies -->
+                                    <?php foreach ($replies as $reply): ?>
 
-        <?php if ($reply['sender'] == 1): /* MCS */ ?>
-            <div class="d-flex align-items-start mb-4">
-                <img src="../assets/images/favicons/favicon-16x16.png" class="avatar me-2">
-                <div class="  p-2 rounded chat-message" style="background-color: #660b31ff;margin-left: 10px !important;color: #ffffff !important;">
-                    <?= htmlspecialchars($reply['message']) ?>
+                                        <?php if ($reply['sender'] == 1): /* MCS */ ?>
+                                            <div class="d-flex align-items-start mb-4">
+                                                <img src="../assets/images/favicons/favicon-16x16.png" class="avatar me-2">
+                                                <div class="  p-2 rounded chat-message" style="background-color: #660b31ff;margin-left: 10px !important;color: #ffffff !important;">
+                                                    <?= htmlspecialchars($reply['message']) ?>
 
-                    <?php if ($reply['attachment'] != 'NotAssign' ): ?>
-                        <br>
-                        <img src="../Images/Ticket/<?= htmlspecialchars($reply['attachment']) ?>"
-                             class="chat-img"
-                             onclick="showImage(this.src)">
-                    <?php endif; ?>
-                </div>
-            </div>
+                                                    <?php if ($reply['attachment'] != 'NotAssign'): ?>
+                                                        <br>
+                                                        <img src="../Images/Ticket/<?= htmlspecialchars($reply['attachment']) ?>"
+                                                            class="chat-img"
+                                                            onclick="showImage(this.src)">
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
 
-        <?php else: /* USER */ ?>
-            <div class="d-flex align-items-start justify-content-end mb-4">
-                <div class="bg-primary text-white p-2 rounded chat-message text-end">
-                    <?= htmlspecialchars($reply['message']) ?>
+                                        <?php else: /* USER */ ?>
+                                            <div class="d-flex align-items-start justify-content-end mb-4">
+                                                <div class="bg-primary text-white p-2 rounded chat-message text-end">
+                                                    <?= htmlspecialchars($reply['message']) ?>
 
-                    <?php if ($reply['attachment'] != 'NotAssign'): ?>
-                        <br>
-                        <img src="../Images/Ticket/<?= htmlspecialchars($reply['attachment']) ?>"
-                             class="chat-img"
-                             onclick="showImage(this.src)" style="margin-left: 10px !important;">
-                    <?php endif; ?>
-                </div>
-                <img src="../<?= htmlspecialchars($userImg) ?>" class="avatar ms-2">
-            </div>
-        <?php endif; ?>
+                                                    <?php if ($reply['attachment'] != 'NotAssign'): ?>
+                                                        <br>
+                                                        <img src="../Images/Ticket/<?= htmlspecialchars($reply['attachment']) ?>"
+                                                            class="chat-img"
+                                                            onclick="showImage(this.src)" style="margin-left: 10px !important;">
+                                                    <?php endif; ?>
+                                                </div>
+                                                <img src="../<?= htmlspecialchars($userImg) ?>" class="avatar ms-2">
+                                            </div>
+                                        <?php endif; ?>
 
-    <?php endforeach; ?>
+                                    <?php endforeach; ?>
 
-</div>
+                                </div>
 
 
 
@@ -214,7 +258,7 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <i class="fa fa-paperclip" aria-hidden="true"></i>
                                         </button>
                                         <input type="text" id="messageInput" class="form-control" style="color: #000000ff !important;" placeholder="Type a message...">
-                                        
+
 
                                         <a class="btn btn-primary" type="button" onclick="sendMessage()" style="margin-left: 10px !important;">Send</a>
 
@@ -282,85 +326,91 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <script src="./js/typeahead.js"></script>
         <script src="./js/select2.js"></script>
 
-          <script src="./js/alerts.js"></script>
-          <script src="./js/avgrund.js"></script>
+        <script src="./js/alerts.js"></script>
+        <script src="./js/avgrund.js"></script>
 
 
 
         <script>
-
-
-
-     const TICKET_ID = <?= (int)$ticketId ?>;
+            const TICKET_ID = <?= (int)$ticketId ?>;
+            const loader = document.getElementById('pageLoader');
 
             const closeTicketNow = () => {
-  swal({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    buttons: {
-      cancel: {
-        text: "Cancel",
-        value: false,
-        visible: true,
-        className: "btn btn-danger",
-        closeModal: true,
-      },
-      confirm: {
-        text: "OK",
-        value: true,
-        visible: true,
-        className: "btn btn-primary",
-        closeModal: true
-      }
-    }
-  }).then((isConfirmed) => {
-    if (isConfirmed) {
-      
-        const CloseTicketForm = new FormData();
-        CloseTicketForm.append('TicketId', TICKET_ID);
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    buttons: {
+                        cancel: {
+                            text: "Cancel",
+                            value: false,
+                            visible: true,
+                            className: "btn btn-danger",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: "OK",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary",
+                            closeModal: true
+                        }
+                    }
+                }).then((isConfirmed) => {
+                    if (isConfirmed) {
+
+                        const CloseTicketForm = new FormData();
+                        CloseTicketForm.append('TicketId', TICKET_ID);
 
 
 
-        fetch('./BackEnd/CloseTicket.php', {
-                        method: 'POST',
-                        body: CloseTicketForm
-                    })
-                    .then(res => res.text())
-                    .then(response => {
-                        Toastify({
-                            text: response,
-                            duration: 3000,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "linear-gradient(270deg, #f8274e 0%, #2a31a8 100%)",
-                            close: true
-                        }).showToast();
-                    })
-                    .catch(err => {
-                        Toastify({
-                            text: "Error: " + err,
-                            duration: 3000,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "linear-gradient(270deg, #ff1640 0%, #b6022f 100%)",
-                            close: true
-                        }).showToast();
-                    });
+                        fetch('./BackEnd/CloseTicket.php', {
+                                method: 'POST',
+                                body: CloseTicketForm
+                            })
+                            .then(res => res.text())
+                            .then(response => {
+                                Toastify({
+                                    text: response,
+                                    duration: 3000,
+                                    gravity: "top",
+                                    position: "right",
+                                    backgroundColor: "linear-gradient(270deg, #f8274e 0%, #2a31a8 100%)",
+                                    close: true
+                                }).showToast();
+
+                                // Show loader
+                                loader.style.display = 'flex';
+
+                                setTimeout(() => {
+                                    window.location.href = './AvilableTicket.php';
+                                }, 3000);
+                            })
+                            .catch(err => {
+                                Toastify({
+                                    text: "Error: " + err,
+                                    duration: 3000,
+                                    gravity: "top",
+                                    position: "right",
+                                    backgroundColor: "linear-gradient(270deg, #ff1640 0%, #b6022f 100%)",
+                                    close: true
+                                }).showToast();
+                            });
 
 
-        
 
-    } else {
-      // ❌ NOT CONFIRMED / CANCELLED
-      console.log("Action cancelled");
-    }
-  });
-};
+
+                    } else {
+                        // ❌ NOT CONFIRMED / CANCELLED
+                        console.log("Action cancelled");
+                    }
+                });
+            };
 
 
 
             const USER_ID = <?= (int)$ticketId ?>;
+
             function showImage(src) {
                 document.getElementById("modalImage").src = src;
             }
@@ -432,7 +482,7 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 const formData = new FormData();
                 formData.append('message', message);
                 formData.append('ticketId', TICKET_ID);
-                
+
 
                 if (selectedImage) {
                     formData.append('image', selectedImage);
@@ -478,8 +528,3 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 </html>
-
-
-
-
-
