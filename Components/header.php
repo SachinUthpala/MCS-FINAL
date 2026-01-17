@@ -125,7 +125,7 @@ $adminType = $_SESSION['AdminType'] ?? 0;
 
                         <!-- DRIVERS -->
                         <li class="<?php echo ($current_page == 'drivers.php') ? 'current' : ''; ?>">
-                            <a href="drivers.php">Drivers</a>
+                            <a href="<?php echo empty($userMail) ? 'login.php?DriverLogin=1' : 'drivers.php'; ?>">Drivers</a>
                         </li>
 
                         <!-- CONTACT -->

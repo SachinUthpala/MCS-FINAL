@@ -219,6 +219,26 @@ require './GoogleConfig.php';
     ';
     }
 
+    if($_GET['DriverLogin'] == 1){
+          echo '
+    <script>
+    Toastify({
+      text: "Before Download Drivers Plese Login",
+      duration: 6000,
+      newWindow: true,
+      close: true,
+      gravity: "top", // top or bottom
+      position: "right", // left, center or right
+      stopOnFocus: true, // Prevent dismissing on hover
+      style: {
+        background: "linear-gradient(to right, #d40047ff, #0043c0ff)",
+      },
+      onClick: function(){} 
+    }).showToast();
+    </script>
+    ';
+    }
+
 
 
     ?>
