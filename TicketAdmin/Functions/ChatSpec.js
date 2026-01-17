@@ -41,7 +41,6 @@ function sendMessage() {
 
     if (message === '' && !selectedImage) return;
 
-    // Append message to UI
     let imageHTML = '';
     if (selectedImage) {
         const imgURL = URL.createObjectURL(selectedImage);
@@ -49,26 +48,25 @@ function sendMessage() {
             <br>
             <img src="${imgURL}"
                  class="chat-img"
-                 data-bs-toggle="modal"
-                 data-bs-target="#imageModal"
-                 onclick="showImage(this.src)">
+     data-toggle="modal"
+     data-target="#imageModal"
+     onclick="showImage(this.src)">
         `;
     }
 
     chatBody.innerHTML += `
-        <div class="d-flex align-items-start justify-content-end mb-4">
-            <div class="bg-primary text-white p-2 rounded text-end chat-message">
+        <div class="d-flex align-items-start mb-4">
+            <img src="../assets/images/favicons/favicon-16x16.png" class="avatar me-2 m-2">
+            <div class="bg-secondary text-white p-2 rounded chat-message" style="background-color : #3b1d00ff !important ;">
                 ${message}
                 ${imageHTML}
-                
             </div>
-            <img src="<?php echo $_SESSION['userImage']; ?>" class="avatar ms-2">
         </div>
     `;
 
     chatBody.scrollTop = chatBody.scrollHeight;
 
-    // ====== SEND TO BACKEND ======
+    /* ===== SEND TO BACKEND ===== */
     const formData = new FormData();
     formData.append('message', message);
 
@@ -102,7 +100,7 @@ function sendMessage() {
         }).showToast();
     });
 
-    // ====== RESET ======
+    /* ===== RESET ===== */
     messageInput.value = '';
     document.getElementById('imageInput').value = '';
     document.getElementById('imagePreview').innerHTML = '';

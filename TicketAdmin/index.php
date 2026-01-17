@@ -16,12 +16,55 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicons/favicon-16x16.png">
-  
-     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+  <style>
+    /* Full-page loader */
+#pageLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.51); /* black transparent */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+}
+
+/* Spinner */
+.loader {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+  </style>
 
 </head>
 
 <body>
+
+<div id="pageLoader">
+    <div class="loader"></div>
+    <br><br>
+    <h3 style="color: #ffffffb6; font-weight: 500;">Plese Weight Until Setup Working Enviroment !</h3>
+</div>
+
+
+
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-center auth">
@@ -77,9 +120,9 @@
   <script src="./js/settings.js"></script>
   <script src="./js/todolist.js"></script>
   <!-- endinject -->
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-  <script src="./Functions/signin.js""></script>
+   <script src="./Functions/login.js"></script>
 </body>
 
 

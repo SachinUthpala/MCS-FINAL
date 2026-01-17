@@ -113,6 +113,11 @@ session_start();
         <div class="stricky-header stricked-menu main-menu main-menu-two">
             <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
         </div><!-- /.stricky-header -->
+
+
+
+        
+
         <!--Page Header Start-->
         <section class="page-header">
             <div class="page-header__bg" style="background-image: url(./assets/images/contact.jpg);">
@@ -134,7 +139,20 @@ session_start();
 
         <!-- Contact Two Start -->
         <section class="contact-two" id="contact">
-           
+            <!-- <ul class="contact-two__sliding-text-list list-unstyled marquee_mode-2">
+                <li>
+                    <h2 data-hover="Branding" class="contact-two__sliding-text-title">GET IN TOUCH *</h2>
+                </li>
+                <li>
+                    <h2 data-hover="Branding" class="contact-two__sliding-text-title">GET IN TOUCH *</h2>
+                </li>
+                <li>
+                    <h2 data-hover="Branding" class="contact-two__sliding-text-title">GET IN TOUCH *</h2>
+                </li>
+            </ul> -->
+            <!-- <div class="contact-two__bg" style="background-image: 
+             url(assets/images/backgrounds/contact-two-bg.jpg);"> 
+            </div> -->
             <div class="contact-two__shape-1 float-bob-y">
                 <img src="assets/images/shapes/contact-two-shape-1.png" alt="">
             </div>
@@ -223,14 +241,14 @@ session_start();
                                             <div class="select-box">
                                                 <select class="selectmenu wide" name="subject">
                                                     <option>Request a Quote</option>
-                                                    <option>Product/Service Information</option>
-                                                    <option>Technical Support</option>
-                                                    <option>Partnership Opportunity</option>
-                                                    <option>Feedback or Suggestions</option>
-                                                    <option>Billing or Payment Issue</option>
-                                                    <option>Job or Internship Application</option>
-                                                    <option>Schedule a Meeting</option>
-                                                    <option>Other (Please Specify)</option>
+<option>Product/Service Information</option>
+<option>Technical Support</option>
+<option>Partnership Opportunity</option>
+<option>Feedback or Suggestions</option>
+<option>Billing or Payment Issue</option>
+<option>Job or Internship Application</option>
+<option>Schedule a Meeting</option>
+<option>Other (Please Specify)</option>
                                                 </select>
 
                                             </div>
@@ -257,7 +275,17 @@ session_start();
                 </div>
             </div>
         </section>
+        <!-- Contact Two End -->        
 
+        <!-- Testimonial Two Start -->
+        
+        <!-- Testimonial Two End -->
+
+        <!-- Blog Two Start -->
+        
+        <!-- Blog Two End -->
+
+        <!-- Newsletter Two Start -->
         <section class="newsletter-two">
             <div class="newsletter-two__shape-1">
                 <img src="assets/images/shapes/newsletter-two-shape-1.png" alt="">

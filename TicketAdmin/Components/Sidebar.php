@@ -22,7 +22,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./AllTicketsDep.php">
+            <a class="nav-link" href="./AvilableTicket.php">
               <i class="fa fa-puzzle-piece menu-icon"></i>
               <span class="menu-title">Avilable Tickets</span>
             </a>
@@ -63,7 +63,7 @@
 
           <li class="nav-item ">
             <a class="nav-link" data-toggle="collapse" href="#department" aria-expanded="false" aria-controls="page-layouts">
-              <i class="fa fa-suitcase menu-icon"></i>
+              <i class="fa fa-users menu-icon"></i>
               <span class="menu-title">Department Changes</span>
               <i class="menu-arrow"></i>
             </a>

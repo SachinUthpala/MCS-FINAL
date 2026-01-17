@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 
 //GETTING DB CONNECTION
 
-require '../DB/config.conn.php';
+require '../../DB/config.conn.php';
 session_start();
 
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 
-$sender = 2;
+$sender = 1;
 
 
 
@@ -30,7 +30,7 @@ $ReplyMassage = $_POST['message'];
 
     if (!empty($_FILES['image']['name'])) {
 
-        $imageUploadPath = '../Images/Ticket/';
+        $imageUploadPath = '../../Images/Ticket/';
         $imageName = basename($_FILES['image']['name']);
 
         // Sanitize title for filename

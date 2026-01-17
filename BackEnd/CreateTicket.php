@@ -53,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Insert ticket
     $sql = "
         INSERT INTO tickets 
-        (userMail, DepartmentId, ticketTitle, ticketDiscription, attachment, createdDate, urgancy, replyId)
+        (userMail, DepartmentId, ticketTitle, ticketDiscription, attachment, createdDate, urgancy, replyId , AssignLevel)
         VALUES
-        (:userMail, :DepartmentId, :ticketTitle, :ticketDiscription, :attachment, :createdDate, :urgancy, :replyId)
+        (:userMail, :DepartmentId, :ticketTitle, :ticketDiscription, :attachment, :createdDate, :urgancy, :replyId , :AssignLevel)
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -67,7 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ':attachment'         => $newImageName,
         ':createdDate'        => $currentDateTime,
         ':urgancy'            => $urgancy,
-        ':replyId' => $replyId
+        ':replyId' => $replyId,
+        ':AssignLevel' => 1
     ]);
 
     echo "Ticket submitted successfully.";

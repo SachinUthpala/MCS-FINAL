@@ -1,11 +1,39 @@
 <?php
 
+
+session_start();
+
+if (!isset($_SESSION['TicketuserEmail']) || !isset($_SESSION['TicketuserName'])) {
+    header("Location: index.php");
+    exit();
+}
+
+
 require '../DB/config.conn.php';
 
-// getting departments
-$depSql = "SELECT * FROM `departments`";
-$smtpDep = $pdo->prepare($depSql);
-$smtpDep->execute();
+$depId = $_SESSION['TicketuserDepartment'];
+
+if($depId == 1 || $depId == '1'){
+
+   $DepName = 'System Admin';
+
+
+}else{
+
+
+  // getting departments
+  $depSql = "SELECT * FROM `departments` WHERE depId = :depId";
+  $smtpDep = $pdo->prepare($depSql);
+  $smtpDep->execute([
+    ':depId' => $depId
+  ]);
+
+  $departmentRes = $smtpDep->fetch(PDO::FETCH_ASSOC);
+  $DepName = $departmentRes['depName'];
+
+
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +49,7 @@ $smtpDep->execute();
   <link rel="stylesheet" href="./vendors/iconfonts/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.addons.css">
-  <
+  
   <link rel="stylesheet" href="./css/style.css">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-16x16.png">
@@ -33,7 +61,7 @@ $smtpDep->execute();
 
 
 </head>
-<body class="sidebar-fixed" >
+<body class="sidebar-fixed">
   <div class="container-scroller">
     <!-- partial:./partials/_navbar.html -->
     <?php  require './Components/TopHeader.php' ?>
@@ -46,12 +74,12 @@ $smtpDep->execute();
         <div class="content-wrapper">
           <div class="page-header">
             <h3 class="page-title">
-              <span style="color: #ff9900ff;">User : </span> Sachin@gmail.com || <span style="color: #ff9900ff;" >Department : </span> Department 1
+              User Name : <?php echo $_SESSION['TicketuserName']; ?> || Department : <?php echo $DepName; ?>
             </h3>
           </div>
-          
-
          
+
+
           
             
           
@@ -90,7 +118,7 @@ $smtpDep->execute();
 <script src="./js/file-upload.js"></script>
   <script src="./js/typeahead.js"></script>
   <script src="./js/select2.js"></script>
-  <!-- <script src="./Functions/AddUser.js"></script> -->
+  <script src="./Functions/AddUser.js"></script>
 
   <!-- End custom js for this page-->
 </body>

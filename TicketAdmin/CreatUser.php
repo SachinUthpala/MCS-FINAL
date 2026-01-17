@@ -1,5 +1,13 @@
 <?php
 
+
+session_start();
+
+if (!isset($_SESSION['TicketuserEmail']) || !isset($_SESSION['TicketuserName'])) {
+    header("Location: index.php");
+    exit();
+}
+
 require '../DB/config.conn.php';
 
 // getting departments
@@ -21,7 +29,7 @@ $smtpDep->execute();
   <link rel="stylesheet" href="./vendors/iconfonts/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.addons.css">
-  <
+  
   <link rel="stylesheet" href="./css/style.css">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-16x16.png">
@@ -137,9 +145,10 @@ $smtpDep->execute();
                       <div class="form-group">
                       <label for="AdmintYPE">Admin Type</label>
                         <select class="form-control" name="adminType" id="AdmintYPE">
-                            <option value="2" >Admin</option>
-                            <option value="1" >Normal</option>
-                            <option value="3" >Super Admin</option>
+                            
+                            <option value="1" >Normal (Lower Level)</option>
+                            <option value="2" >Admin (Midum Level)</option>
+                            <option value="3" >Super Admin (Higher Level)</option>
                             
                         </select>
                       </div>

@@ -12,6 +12,12 @@ require './DB/config.conn.php';
 
 $ticketId = $_GET['ticketId'];
 
+
+if (!isset($_SESSION['userEmail']) || !isset($_GET['ticketId'])) {
+    header("Location: index.php");
+    exit();
+}
+
 $sql  = "SELECT * FROM tickets WHERE ticketId = :ticketId";
 $smtp = $pdo->prepare($sql);
 $smtp->execute([
@@ -19,6 +25,26 @@ $smtp->execute([
 ]);
 
 $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
+
+
+//fetch ticket reply (new mwhod)
+
+$stmt = $pdo->prepare("
+    SELECT sender, message, attachment, created_at
+    FROM ticket_replies
+    WHERE ticketId = ?
+    ORDER BY created_at ASC
+");
+$stmt->execute([$ticketId]);
+$replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+///cheaking the chat is closed or not
+
+
+
 
 ?>
 
@@ -32,7 +58,7 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/favicons/site.webmanifest">
+    
     <meta name="description" content="MCS Solutions ">
 
     <!-- fonts -->
@@ -82,6 +108,8 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="./assets/css/module-css/shop.css">
     <link rel="stylesheet" href="./assets/css/module-css/page-header.css">
     <link rel="stylesheet" href="./assets/css/module-css/ChatSpec.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="custom-cursor">
@@ -94,6 +122,41 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
     <div></div>
     <div></div>
 </div> -->
+
+
+<?php if($resqlt['status'] == 2){ ?>
+
+<script>
+Swal.fire({
+    title: "Are you sure?",
+    text: "This ticket is already closed. If you want you can reopen it!",
+    icon: "warning",
+    background: "#000000e7",
+    color: "#ffffff",
+
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+
+    confirmButtonText: "Yes, Stay & Reopen",
+    cancelButtonText: "No, Back To Home"
+}).then((result) => {
+
+    // ✅ CONFIRM BUTTON
+    if (result.isConfirmed) {
+        // call reopen function here if needed
+        console.log("Reopen ticket");
+    }
+
+    // ✅ CANCEL BUTTON
+    if (result.dismiss === Swal.DismissReason.cancel) {
+        location.href = './ticket.php';
+    }
+});
+</script>
+
+
+    <?php } ?>
 
 <div class="page-wrapper">
     <?php require './Components/header.php'; ?>
@@ -120,7 +183,19 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
         </div>
     </section>
 
-    <div class="container mt-5  p-4 rounded" style="margin-bottom: 30px !important; background:transparent;border:none !important;">
+    <div class=" ticket-options mt-5"  style="display: flex;flex-direction: row; gap: 30px ;align-items: center;text-align: center;justify-content: center;">
+
+                    <div class="main-menu-two__btn-box" style="border-radius: 0%; margin-left: 5px;">
+                        <a type="button"  class="thm-btn" onclick="closeTicket()" style="padding: 20px 90px !important;background: #ff1a1aff !important;">Close The Ticket</a>
+                    </div>
+
+                    <div class="main-menu-two__btn-box"  style="border-radius: 0%; margin-left: 5px;">
+                        <a type="button"  class="thm-btn" style="padding: 20px 90px !important;" onclick="location.href='./ticket.php'" >Back To Dashboard</a>
+                    </div>
+        
+    </div>
+
+    <div class="container mt-3  p-4 rounded" style="margin-bottom: 30px !important; background:transparent;border:none !important;">
         <div class="card" style="background-color: transparent;border:none !important;">
             <div class="card-header text-center fw-bold" style="color: #fff; background-color: transparent;border:none !important;">
                 <?php echo $resqlt['ticketTitle']; ?>
@@ -145,48 +220,36 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
                     <img src="<?php echo $_SESSION['userImage']; ?>" class="avatar ms-2">
                 </div>
 
-                <!-- Loop for all replies -->
-                <?php
-                $nextReplyId = $resqlt['replyId'] ?? 'NotAssign';
 
-                while ($nextReplyId != 'NotAssign') {
+                <!-- new ticket loop -->
+<?php foreach ($replies as $reply): ?>
 
-                    // Check system reply
-                    $sysRep = "SELECT * FROM systemreply WHERE refId = :refId";
-                    $sysSmtp = $pdo->prepare($sysRep);
-                    $sysSmtp->execute([':refId' => $nextReplyId]);
+    <?php if ($reply['sender'] == 1): /* MCS */ ?>
 
-                    if ($sysSmtp->rowCount() > 0) {
-                        $resRep = $sysSmtp->fetch(PDO::FETCH_ASSOC);
-                        ?>
-                        <div class="d-flex align-items-start mb-4">
+        <div class="d-flex align-items-start mb-4">
                             <img src="assets/images/favicons/favicon-16x16.png" class="avatar me-2">
                             <div class="bg-secondary text-white p-2 rounded chat-message">
-                                <?php echo $resRep['replyDis']; ?>
+                                <?php echo $reply['message']; ?>
                                 <br>
-                                <img src="<?php echo './Images/Ticket/'.$resRep['attachment']; ?>"
+                                <?php if($reply['attachment'] != 'NotAssign') { ?>
+                                <img src="<?php echo './Images/Ticket/'.$reply['attachment']; ?>"
                                      class="chat-img"
                                      data-bs-toggle="modal"
                                      data-bs-target="#imageModal"
                                      onclick="showImage(this.src)">
+                                     <?php } ?>
                             </div>
                         </div>
-                        <?php
-                    } else {
-                        // Check user reply
-                        $userRep = "SELECT * FROM userreply WHERE refId = :refId";
-                        $userSmtp = $pdo->prepare($userRep);
-                        $userSmtp->execute([':refId' => $nextReplyId]);
 
-                        if ($userSmtp->rowCount() > 0) {
-                            $resRep = $userSmtp->fetch(PDO::FETCH_ASSOC);
-                            ?>
+                        <?php else: /* USER */ ?>
+
+
                             <div class="d-flex align-items-start justify-content-end mb-4">
                                 <div class="bg-primary text-white p-2 rounded text-end chat-message">
-                                    <?php echo $resRep['replyDis']; ?>
-                                    <?php if($resRep['attachment'] != 'NotAssign') { ?>
+                                    <?php echo $reply['message']; ?>
+                                    <?php if($reply['attachment'] != 'NotAssign') { ?>
                                         <br>
-                                        <img src="<?php echo './Images/Ticket/'.$resRep['attachment']; ?>"
+                                        <img src="<?php echo './Images/Ticket/'.$reply['attachment']; ?>"
                                              class="chat-img"
                                              data-bs-toggle="modal"
                                              data-bs-target="#imageModal"
@@ -195,14 +258,17 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
                                 </div>
                                 <img src="<?php echo $_SESSION['userImage']; ?>" class="avatar ms-2">
                             </div>
-                            <?php
-                        }
-                    }
 
-                    // Prepare next loop
-                    $nextReplyId = $resRep['replyId'] ?? 'NotAssign';
-                }
-                ?>
+                            <?php endif; ?>
+
+    <?php endforeach; ?>
+
+                <!-- new ticket loop end -->
+
+
+
+                <!-- Loop for all replies -->
+               
 
             </div>
 
@@ -244,8 +310,161 @@ $resqlt = $smtp->fetch(PDO::FETCH_ASSOC);
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/ChatSpec.js" ></script>
+<!-- <script src="assets/js/ChatSpec.js" ></script> -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<script>
+
+</script>
+
+<script>
+const TICKET_ID = <?= (int)$ticketId ?>;
+
+let selectedImage = null;
+
+/* ====== SHOW IMAGE IN MODAL ====== */
+function showImage(src) {
+    document.getElementById('modalImage').src = src;
+}
+
+/* ====== IMAGE PREVIEW ====== */
+document.getElementById('imageInput').addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        this.value = '';
+        return;
+    }
+
+    selectedImage = file;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById('imagePreview').innerHTML =
+            `<img src="${e.target.result}" class="chat-img">`;
+    };
+    reader.readAsDataURL(file);
+});
+
+/* ====== SEND MESSAGE FUNCTION ====== */
+function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const chatBody = document.getElementById('chatBody');
+    const message = messageInput.value.trim();
+
+    if (message === '' && !selectedImage) return;
+
+    /* ===== UI APPEND ===== */
+    let imageHTML = '';
+    if (selectedImage) {
+        const imgURL = URL.createObjectURL(selectedImage);
+        imageHTML = `
+            <br>
+            <img src="${imgURL}"
+                 class="chat-img"
+                 data-bs-toggle="modal"
+                 data-bs-target="#imageModal"
+                 onclick="showImage(this.src)">
+        `;
+    }
+
+    chatBody.innerHTML += `
+        <div class="d-flex align-items-start justify-content-end mb-4">
+            <div class="bg-primary text-white p-2 rounded text-end chat-message">
+                ${message}
+                ${imageHTML}
+            </div>
+            <img src="<?php echo $_SESSION['userImage']; ?>" class="avatar ms-2">
+        </div>
+    `;
+
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    /* ===== BACKEND SEND ===== */
+    const formData = new FormData();
+    formData.append('message', message);
+    formData.append('ticketId', TICKET_ID);
+
+    if (selectedImage) {
+        formData.append('image', selectedImage);
+    }
+
+    fetch('./BackEnd/SaveReply.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(response => {
+        Toastify({
+            text: response,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(270deg, #f8274e 0%, #2a31a8 100%)",
+            close: true
+        }).showToast();
+    })
+    .catch(err => {
+        Toastify({
+            text: "Error: " + err,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(270deg, #ff1640 0%, #b6022f 100%)",
+            close: true
+        }).showToast();
+    });
+
+    /* ===== RESET ===== */
+    messageInput.value = '';
+    document.getElementById('imageInput').value = '';
+    document.getElementById('imagePreview').innerHTML = '';
+    selectedImage = null;
+}
+
+
+
+function closeTicket() {
+    const CloseFormData = new FormData();
+    CloseFormData.append('ticketId', TICKET_ID);
+
+
+    fetch('./BackEnd/CloseTicket.php', {
+        method: 'POST',
+        body: CloseFormData
+    })
+    .then(res => res.text())
+    .then(response => {
+        Toastify({
+            text: response,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(270deg, #f8274e 0%, #2a31a8 100%)",
+            close: true
+        }).showToast();
+
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
+    })
+    .catch(err => {
+        Toastify({
+            text: "Error: " + err,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(270deg, #ff1640 0%, #b6022f 100%)",
+            close: true
+        }).showToast();
+    });
+}
+</script>
+
+
+
 </body>
 </html>

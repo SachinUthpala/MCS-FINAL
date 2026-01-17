@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient' => array(
-            'pretty_version' => 'v2.14.0',
-            'version' => '2.14.0.0',
-            'reference' => '789c8b07cad97f420ac0467c782036f955a2ad89',
+            'pretty_version' => 'v2.15.0',
+            'version' => '2.15.0.0',
+            'reference' => '49787fa30b8d8313146a61efbf77ed1fede723c2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient',
             'aliases' => array(),

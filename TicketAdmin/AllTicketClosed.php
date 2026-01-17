@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION['TicketuserEmail']) || !isset($_SESSION['TicketuserName'])) {
+    header("Location: index.php");
+    exit();
+}
+
+
 require '../DB/config.conn.php';
 
 // getting departments
@@ -42,7 +50,7 @@ $totalTicketsClosed = $smtp23->rowCount();
   <link rel="stylesheet" href="./vendors/iconfonts/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.addons.css">
-  <
+
   <link rel="stylesheet" href="./css/style.css">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-16x16.png">
@@ -128,7 +136,7 @@ $totalTicketsClosed = $smtp23->rowCount();
                             <th>Status</th>
                            
                             <th>Title</th>
-                            <th>PDiscription</th>
+                            <th>Discription</th>
                             <th>CreatedBy</th>
                             <th>See Chat</th>
                         </tr>
@@ -152,8 +160,12 @@ $totalTicketsClosed = $smtp23->rowCount();
                               $smtp2->bindParam(':depId', $departmentId);
                               $smtp2->execute();
 
-                              $depRow = $smtp2->fetch(PDO::FETCH_ASSOC);
-                              echo $depRow['depName'];
+                              if($smtp2->rowCount() > 0) {
+                                $depRow = $smtp2->fetch(PDO::FETCH_ASSOC);
+                                echo $depRow['depName'];
+                              }else{
+                                echo 'No Dep';
+                              }
 
                               ?>
                             </td>
@@ -170,7 +182,7 @@ $totalTicketsClosed = $smtp23->rowCount();
                             </td>
                             
                             <td><?php echo $row['ticketTitle']; ?></td>
-                            <td><?php echo $row['ticketDiscription']; ?></td>
+                            <td style="max-width: 300px !important;" ><?php echo $row['ticketDiscription']; ?></td>
                             <td><?php echo $row['userMail']; ?></td>
                             <td><a href="TicketChat.php?ticketId=<?php echo $row['ticketId']; ?>"><button class="btn btn-primary py-2">See Chat</button></a></td>
                         </tr>

@@ -10,14 +10,47 @@ if (!isset($_SESSION['TicketuserEmail']) || !isset($_SESSION['TicketuserName']))
 
 require '../DB/config.conn.php';
 
+$depId = $_SESSION['TicketuserDepartment'];
+
+// chracking user level and department
+if($_SESSION['TicketuserDepartment'] == 1){
+    $sql = "SELECT * FROM `tickets`";
+    $smtp = $pdo->prepare($sql);
+    $smtp->execute();
+}else{
+
+    
+
+    if($_SESSION['TicketuserAdmin'] == 1){
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 1  ";
+        $smtp = $pdo->prepare($sql);
+        $smtp->execute([
+            ':DepartmentId' => $depId
+        ]);
+    }elseif($_SESSION['TicketuserAdmin'] == 2) {
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 2  ";
+        $smtp = $pdo->prepare($sql);
+        $smtp->execute([
+            ':DepartmentId' => $depId
+        ]);
+    }elseif($_SESSION['TicketuserAdmin'] == 3) {
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 3  ";
+        $smtp = $pdo->prepare($sql);
+        $smtp->execute([
+            ':DepartmentId' => $depId
+        ]);
+    }
+
+}
+
 // getting departments
-$sql = "SELECT * FROM `tickets` WHERE status != 2";
-$smtp = $pdo->prepare($sql);
-$smtp->execute();
+$sql23 = "SELECT * FROM `tickets`";
+$smtp23 = $pdo->prepare($sql23);
+$smtp23->execute();
 
 
 //special calculation for cards
-$totalTickets = $smtp->rowCount();
+$totalTickets = $smtp23->rowCount();
 
 //open tickets
 $sql2 = "SELECT * FROM `tickets` WHERE status != 2 ";
@@ -33,6 +66,33 @@ $smtp23->execute();
 
 $totalTicketsClosed = $smtp23->rowCount();
 
+
+$sql231 = "SELECT * FROM `tickets` WHERE status != 2 AND DepartmentId = :DepartmentId ";
+$smtp231 = $pdo->prepare($sql231);
+$smtp231->execute([
+    ':DepartmentId' => $depId
+]);
+
+$TotalDepTicketsOpen = $smtp231->rowCount();
+
+
+$sql2312 = "SELECT * FROM `tickets` WHERE status != 2 AND DepartmentId = :DepartmentId ";
+$smtp2312 = $pdo->prepare($sql2312);
+$smtp2312->execute([
+    ':DepartmentId' => $depId
+]);
+
+$TotalDepTicketsClosed = $smtp2312->rowCount();
+
+
+$sql2311 = "SELECT * FROM `tickets` WHERE  DepartmentId = :DepartmentId ";
+$smtp2311 = $pdo->prepare($sql2311);
+$smtp2311->execute([
+    ':DepartmentId' => $depId
+]);
+
+$TotalDepTickets = $smtp2311->rowCount();
+
 //close ticket
 
 
@@ -45,12 +105,12 @@ $totalTicketsClosed = $smtp23->rowCount();
  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>MCS Ticket || Create User</title>
+  <title>MCS Ticket || Avilable Tickets</title>
  
   <link rel="stylesheet" href="./vendors/iconfonts/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="./vendors/css/vendor.bundle.addons.css">
-
+  
   <link rel="stylesheet" href="./css/style.css">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicons/favicon-16x16.png">
@@ -85,7 +145,7 @@ $totalTicketsClosed = $smtp23->rowCount();
                   <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div class="statistics-item">
                         <p>
-                          <i class="icon-sm fa fa-user mr-2"></i>
+                          <i class="icon-sm fa fa-comment mr-2"></i>
                           All Tickets
                         </p>
                         <h2><?php echo $totalTickets; ?></h2>
@@ -94,7 +154,7 @@ $totalTicketsClosed = $smtp23->rowCount();
                      
                       <div class="statistics-item">
                         <p>
-                          <i class="icon-sm fa fa-user mr-2"></i>
+                          <i class="icon-sm fa fa-spinner mr-2"></i>
                           Ongoing Tickets
                         </p>
                         <h2><?php echo $totalTicketsProcess; ?></h2>
@@ -103,10 +163,37 @@ $totalTicketsClosed = $smtp23->rowCount();
 
                       <div class="statistics-item">
                         <p>
-                          <i class="icon-sm fa fa-user mr-2"></i>
+                          <i class="icon-sm fa fa-ban mr-2"></i>
                           Closed Tickets
                         </p>
                         <h2><?php echo $totalTicketsClosed; ?></h2>
+                        
+                      </div>
+
+                      <div class="statistics-item">
+                        <p>
+                          <i class="icon-sm fa fa-comment mr-2"></i>
+                          All Department Tickets
+                        </p>
+                        <h2><?php echo $TotalDepTickets;  ?></h2>
+                        
+                      </div>
+
+                      <div class="statistics-item">
+                        <p>
+                          <i class="icon-sm fa fa-spinner mr-2"></i>
+                          All Dep Open
+                        </p>
+                        <h2><?php echo $TotalDepTicketsOpen; ?></h2>
+                        
+                      </div>
+
+                      <div class="statistics-item">
+                        <p>
+                          <i class="icon-sm fa fa-ban mr-2"></i>
+                          All dep Closed
+                        </p>
+                        <h2><?php echo $TotalDepTicketsClosed; ?></h2>
                         
                       </div>
 
