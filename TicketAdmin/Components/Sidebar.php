@@ -28,11 +28,20 @@
             </a>
           </li>
 
-           <li class="nav-item">
-            <a class="nav-link" href="./MyAssignTickets.php">
+
+          <li class="nav-item ">
+            <a class="nav-link" data-toggle="collapse" href="#page-ticketsMy" aria-expanded="false" aria-controls="page-ticketsMy">
               <i class="fa fa-briefcase menu-icon"></i>
               <span class="menu-title">My Assign Tickets</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse " id="page-ticketsMy" >
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="AllTicketsMy.php"><i class="fa fa-plus"></i>&ensp;All Tickets</a></li>
+              <li class="nav-item"> <a class="nav-link" href="AllTicketProcessMy.php"><i class="fa fa-gavel"></i>&ensp;Ongoing Tickets</a></li>
+              <li class="nav-item"> <a class="nav-link" href="AllTicketClosedMy.php"><i class="fa fa-trash"></i>&ensp;Closed Tickets</a></li>
+              </ul>
+            </div>
           </li>
 
 
