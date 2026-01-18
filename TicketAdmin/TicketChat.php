@@ -17,6 +17,7 @@ if (!isset($_GET['ticketId'])) {
 }
 
 $ticketId = (int)$_GET['ticketId'];
+$userId = (int)$_SESSION['userID'];
 
 /* ===== FETCH TICKET ===== */
 $stmt = $pdo->prepare("SELECT * FROM tickets WHERE ticketId = ? LIMIT 1");
@@ -333,6 +334,9 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <script>
             const TICKET_ID = <?= (int)$ticketId ?>;
+
+            const USER_IDS = <?= (int)$userId ?>;
+
             const loader = document.getElementById('pageLoader');
 
             const closeTicketNow = () => {
@@ -482,6 +486,7 @@ $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 const formData = new FormData();
                 formData.append('message', message);
                 formData.append('ticketId', TICKET_ID);
+                formData.append('userId', USER_IDS);
 
 
                 if (selectedImage) {

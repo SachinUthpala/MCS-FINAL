@@ -23,6 +23,7 @@ $sender = 1;
 $ticketId = $_POST['ticketId'];
 $ticketTitle = random_int(100 , 5000000);//only for images
 $ReplyMassage = $_POST['message'];
+$userId = $_POST['userId'];
 
   // Default attachment value
     $newImageName = 'NotAssign';
@@ -48,11 +49,19 @@ $ReplyMassage = $_POST['message'];
     }
 
 
+    // update ticket assign
+
 /* INSERT REPLY */
 $stmt = $pdo->prepare("
     INSERT INTO ticket_replies (ticketId, sender, message, attachment)
     VALUES (?, ?, ?, ?)
 ");
 $stmt->execute([$ticketId, $sender, $ReplyMassage, $newImageName]);
+
+
+// update ticket assign
+$sql2 = "UPDATE tickets SET  AssignTo = ? WHERE ticketId = ?";
+$stmt = $pdo->prepare($sql2);
+$stmt->execute([$userId, $ticketId]);
 
 echo "Message sent successfully";

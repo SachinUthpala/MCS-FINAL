@@ -43,6 +43,7 @@ if($smtp->rowCount() > 0) {
 
     }
 
+    $_SESSION['userID'] = $result['userIs'];
     $_SESSION['TicketuserEmail'] = $result['userEmail'];
     $_SESSION['TicketuserName'] = $result['userName'];
     $_SESSION['TicketuserDepartment'] = $result['departmentId'];

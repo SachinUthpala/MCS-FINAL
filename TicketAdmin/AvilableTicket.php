@@ -14,7 +14,7 @@ $depId = $_SESSION['TicketuserDepartment'];
 
 // chracking user level and department
 if($_SESSION['TicketuserDepartment'] == 1){
-    $sql = "SELECT * FROM `tickets`";
+    $sql = "SELECT * FROM `tickets` WHERE AssignTo = 0";
     $smtp = $pdo->prepare($sql);
     $smtp->execute();
 }else{
@@ -22,19 +22,19 @@ if($_SESSION['TicketuserDepartment'] == 1){
     
 
     if($_SESSION['TicketuserAdmin'] == 1){
-        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 1  ";
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 1 and AssignTo = 0 ";
         $smtp = $pdo->prepare($sql);
         $smtp->execute([
             ':DepartmentId' => $depId
         ]);
     }elseif($_SESSION['TicketuserAdmin'] == 2) {
-        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 2  ";
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 2 and AssignTo = 0 ";
         $smtp = $pdo->prepare($sql);
         $smtp->execute([
             ':DepartmentId' => $depId
         ]);
     }elseif($_SESSION['TicketuserAdmin'] == 3) {
-        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 3  ";
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 3 and AssignTo = 0 ";
         $smtp = $pdo->prepare($sql);
         $smtp->execute([
             ':DepartmentId' => $depId
@@ -269,7 +269,18 @@ $TotalDepTickets = $smtp2311->rowCount();
                             </td>
                             
                             <td><?php echo $row['ticketTitle']; ?></td>
-                            <td style="max-width: 300px !important;" ><?php echo $row['ticketDiscription']; ?></td>
+                            <td style="max-width: 300px !important;">
+                                <?php
+                                $text = strip_tags($row['ticketDiscription']);
+                                $words = explode(' ', $text);
+
+                                if (count($words) > 20) {
+                                    echo implode(' ', array_slice($words, 0, 15)) . '...';
+                                } else {
+                                    echo $text;
+                                }
+                                ?>
+                              </td>
                             <td><?php echo $row['userMail']; ?></td>
                             <td><a href="TicketChat.php?ticketId=<?php echo $row['ticketId']; ?>"><button class="btn btn-primary py-2">See Chat</button></a></td>
                         </tr>
