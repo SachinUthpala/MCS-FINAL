@@ -14,7 +14,7 @@ $depId = $_SESSION['TicketuserDepartment'];
 
 // chracking user level and department
 if($_SESSION['TicketuserDepartment'] == 1){
-    $sql = "SELECT * FROM `tickets` WHERE AssignTo = 0";
+    $sql = "SELECT * FROM `tickets` WHERE AssignTo = 0 and status != 2";
     $smtp = $pdo->prepare($sql);
     $smtp->execute();
 }else{
@@ -22,19 +22,19 @@ if($_SESSION['TicketuserDepartment'] == 1){
     
 
     if($_SESSION['TicketuserAdmin'] == 1){
-        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 1 and AssignTo = 0 ";
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 1 and AssignTo = 0 and status != 2 ";
         $smtp = $pdo->prepare($sql);
         $smtp->execute([
             ':DepartmentId' => $depId
         ]);
     }elseif($_SESSION['TicketuserAdmin'] == 2) {
-        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 2 and AssignTo = 0 ";
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 2 and AssignTo = 0 and status != 2 ";
         $smtp = $pdo->prepare($sql);
         $smtp->execute([
             ':DepartmentId' => $depId
         ]);
     }elseif($_SESSION['TicketuserAdmin'] == 3) {
-        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 3 and AssignTo = 0 ";
+        $sql = "SELECT * FROM `tickets` WHERE DepartmentId = :DepartmentId AND AssignLevel = 3 and AssignTo = 0 and status != 2 ";
         $smtp = $pdo->prepare($sql);
         $smtp->execute([
             ':DepartmentId' => $depId
